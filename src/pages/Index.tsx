@@ -1,40 +1,74 @@
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
+import { Brain, FileText } from "lucide-react";
+
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-4">
+      <div className="w-full max-w-4xl">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-slate-800 mb-4">
+            LeibnizDream
+          </h1>
+          <p className="text-xl text-slate-600">
+            Choose your workflow to get started
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm">
+            <CardHeader className="text-center pb-4">
+              <div className="mx-auto mb-4 p-4 bg-blue-100 rounded-full w-fit">
+                <FileText className="w-8 h-8 text-blue-600" />
+              </div>
+              <CardTitle className="text-2xl">Inference</CardTitle>
+              <CardDescription className="text-base">
+                Process and analyze existing content with transcription,
+                translation, and glossing
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <Button
+                onClick={() => navigate("/inference")}
+                className="w-full"
+                size="lg"
+              >
+                Start Inference
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm">
+            <CardHeader className="text-center pb-4">
+              <div className="mx-auto mb-4 p-4 bg-green-100 rounded-full w-fit">
+                <Brain className="w-8 h-8 text-green-600" />
+              </div>
+              <CardTitle className="text-2xl">Training</CardTitle>
+              <CardDescription className="text-base">
+                Train and fine-tune models for your specific use cases
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <Button
+                onClick={() => navigate("/training")}
+                className="w-full"
+                variant="outline"
+                size="lg"
+              >
+                Start Training
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
