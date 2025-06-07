@@ -1,21 +1,13 @@
 from fastapi import FastAPI
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from dotenv import load_dotenv
 import os
 
-
-from routers.auth import router as auth_router
-from routers.jobs import router as jobs_router
-
-
-# Load environment variables (if not already loaded)
-load_dotenv(os.path.join(os.path.dirname(__file__), "materials", "secrets.env"))
-
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
-templates = Jinja2Templates(directory="templates")
+# Mount the compiled frontend
+app.mount("/frontend", StaticFiles(directory="../frontend/dist"), name="frontend")
 
-app.include_router(auth_router)
-app.include_router(jobs_router)
+@app.get("/")
+def serve_index():
+    return FileResponse("../frontend/dist/index.html")
