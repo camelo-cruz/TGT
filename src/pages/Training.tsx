@@ -13,16 +13,16 @@ const Training = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-red-200 sticky top-0 z-10">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-purple-200 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate("/")}
-              className="gap-2 text-red-700 hover:text-red-800 hover:bg-red-50"
+              className="gap-2 text-purple-700 hover:text-purple-800 hover:bg-purple-50"
             >
               <ArrowLeft className="w-4 h-4" />
               Back
@@ -33,7 +33,7 @@ const Training = () => {
                 alt="LeibnizDream Logo"
                 className="w-8 h-8"
               />
-              <h1 className="text-2xl font-bold text-red-800">
+              <h1 className="text-2xl font-bold text-purple-800">
                 Training Workflows
               </h1>
             </div>
@@ -44,56 +44,64 @@ const Training = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-16 max-w-2xl">
         <div className="text-center space-y-8">
-          <div className="mx-auto p-8 bg-red-100 rounded-full w-fit">
-            <Brain className="w-16 h-16 text-red-600" />
+          <div className="mx-auto p-8 bg-violet-100 rounded-full w-fit">
+            <Brain className="w-16 h-16 text-violet-600" />
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-red-800">Training Module</h2>
-            <p className="text-lg text-red-600">
+            <h2 className="text-3xl font-bold text-purple-800">
+              Training Module
+            </h2>
+            <p className="text-lg text-purple-600">
               The training functionality is currently under development. This
               section will allow you to train and fine-tune models for your
               specific use cases.
             </p>
           </div>
 
-          <Card className="text-left border-red-200">
-            <CardHeader className="bg-red-50">
-              <CardTitle className="flex items-center gap-2 text-red-800">
+          <Card className="text-left border-purple-200">
+            <CardHeader className="bg-purple-50">
+              <CardTitle className="flex items-center gap-2 text-purple-800">
                 <Wrench className="w-5 h-5" />
                 Coming Soon
               </CardTitle>
-              <CardDescription className="text-red-600">
+              <CardDescription className="text-purple-600">
                 Features planned for the training module
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2 text-red-600">
+              <ul className="space-y-2 text-purple-600">
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Model training workflows
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Fine-tuning existing models
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Custom dataset management
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Training progress monitoring
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Model evaluation and testing
                 </li>
               </ul>
             </CardContent>
           </Card>
+
           <div className="pt-4">
-            <Button onClick={() => navigate("/")} variant="outline" size="lg">
+            <Button
+              onClick={() => navigate("/")}
+              variant="outline"
+              size="lg"
+              className="border-purple-300 text-purple-700 hover:bg-purple-50"
+            >
               Return to Home
             </Button>
           </div>
@@ -101,9 +109,9 @@ const Training = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-red-200 bg-white/50">
+      <footer className="mt-16 py-8 border-t border-purple-200 bg-white/50">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 text-red-700">
+          <div className="flex items-center justify-center gap-2 text-purple-700">
             <img
               src="/placeholder.svg"
               alt="LeibnizDream Logo"

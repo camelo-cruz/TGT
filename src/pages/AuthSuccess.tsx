@@ -23,16 +23,16 @@ const AuthSuccess = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-red-200 sticky top-0 z-10">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-purple-200 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate("/")}
-              className="gap-2 text-red-700 hover:text-red-800 hover:bg-red-50"
+              className="gap-2 text-purple-700 hover:text-purple-800 hover:bg-purple-50"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Home
@@ -43,7 +43,9 @@ const AuthSuccess = () => {
                 alt="LeibnizDream Logo"
                 className="w-8 h-8"
               />
-              <h1 className="text-2xl font-bold text-red-800">LeibnizDream</h1>
+              <h1 className="text-2xl font-bold text-purple-800">
+                LeibnizDream
+              </h1>
             </div>
           </div>
         </div>
@@ -59,21 +61,23 @@ const AuthSuccess = () => {
 
           {/* Success Message */}
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-red-800">
+            <h2 className="text-3xl font-bold text-purple-800">
               ✅ Signed in successfully
             </h2>
-            <p className="text-lg text-red-600">Your access token is ready.</p>
+            <p className="text-lg text-purple-600">
+              Your access token is ready.
+            </p>
           </div>
 
           {/* Token Card */}
-          <Card className="text-left border-red-200">
-            <CardHeader className="bg-red-50">
-              <CardTitle className="text-red-800">Access Token</CardTitle>
+          <Card className="text-left border-purple-200">
+            <CardHeader className="bg-purple-50">
+              <CardTitle className="text-purple-800">Access Token</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
               <div className="space-y-4">
                 {/* Token Display */}
-                <div className="bg-gray-50 p-4 rounded-lg border">
+                <div className="bg-gray-50 p-4 rounded-lg border border-purple-100">
                   <code className="text-sm break-all text-gray-700 font-mono">
                     {accessToken}
                   </code>
@@ -83,7 +87,7 @@ const AuthSuccess = () => {
                 <div className="flex gap-2">
                   <Button
                     onClick={copyToClipboard}
-                    className="flex-1 gap-2 bg-red-700 hover:bg-red-800 text-white"
+                    className="flex-1 gap-2 bg-purple-700 hover:bg-purple-800 text-white"
                     size="lg"
                   >
                     <Copy className="w-4 h-4" />
@@ -102,22 +106,22 @@ const AuthSuccess = () => {
           </Card>
 
           {/* Next Steps */}
-          <Card className="text-left border-red-200">
-            <CardHeader className="bg-red-50">
-              <CardTitle className="text-red-800">Next Steps</CardTitle>
+          <Card className="text-left border-purple-200">
+            <CardHeader className="bg-purple-50">
+              <CardTitle className="text-purple-800">Next Steps</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
-              <ul className="space-y-2 text-red-700">
+              <ul className="space-y-2 text-purple-700">
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Use this token to authenticate your API requests
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Store the token securely in your application
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                   Return to the app to start your workflow
                 </li>
               </ul>
@@ -128,7 +132,7 @@ const AuthSuccess = () => {
           <div className="flex gap-4 justify-center pt-4">
             <Button
               onClick={() => navigate("/inference")}
-              className="bg-red-700 hover:bg-red-800 text-white"
+              className="bg-purple-700 hover:bg-purple-800 text-white"
               size="lg"
             >
               Go to Inference
@@ -136,7 +140,7 @@ const AuthSuccess = () => {
             <Button
               onClick={() => navigate("/")}
               variant="outline"
-              className="border-red-300 text-red-700 hover:bg-red-50"
+              className="border-purple-300 text-purple-700 hover:bg-purple-50"
               size="lg"
             >
               Return to Home
@@ -146,9 +150,9 @@ const AuthSuccess = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-red-200 bg-white/50">
+      <footer className="mt-16 py-8 border-t border-purple-200 bg-white/50">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 text-red-700">
+          <div className="flex items-center justify-center gap-2 text-purple-700">
             <img
               src="/placeholder.svg"
               alt="LeibnizDream Logo"

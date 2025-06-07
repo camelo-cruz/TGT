@@ -13,7 +13,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-100 p-4">
       <div className="w-full max-w-4xl">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-4 mb-4">
@@ -22,29 +22,29 @@ const Index = () => {
               alt="LeibnizDream Logo"
               className="w-16 h-16"
             />
-            <h1 className="text-4xl font-bold text-red-800">LeibnizDream</h1>
+            <h1 className="text-4xl font-bold text-purple-800">
+              LeibnizDream
+            </h1>
           </div>
-          <p className="text-xl text-red-600">
+          <p className="text-xl text-purple-600">
             Choose your workflow to get started
           </p>
         </div>
-
         <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm border-red-200">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm border-purple-200">
             <CardHeader className="text-center pb-4">
-              <div className="mx-auto mb-4 p-4 bg-red-100 rounded-full w-fit">
-                <FileText className="w-8 h-8 text-red-600" />
+              <div className="mx-auto mb-4 p-4 bg-purple-100 rounded-full w-fit">
+                <FileText className="w-8 h-8 text-purple-600" />
               </div>
-              <CardTitle className="text-2xl text-red-800">Inference</CardTitle>
-              <CardDescription className="text-base text-red-600">
-                Process and analyze existing content with transcription,
-                translation, and glossing
+              <CardTitle className="text-2xl text-purple-800">Inference</CardTitle>
+              <CardDescription className="text-base text-purple-600">
+                Process and analyze existing content with transcription, translation, and glossing
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Button
-                onClick={() => navigate("/inference")}
-                className="w-full bg-red-700 hover:bg-red-800 text-white"
+                onClick={() => navigate('/inference')}
+                className="w-full bg-purple-700 hover:bg-purple-800 text-white"
                 size="lg"
               >
                 Start Inference
@@ -52,26 +52,27 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm border-red-200">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm border-purple-200">
             <CardHeader className="text-center pb-4">
-              <div className="mx-auto mb-4 p-4 bg-red-100 rounded-full w-fit">
-                <Brain className="w-8 h-8 text-red-600" />
+              <div className="mx-auto mb-4 p-4 bg-violet-100 rounded-full w-fit">
+                <Brain className="w-8 h-8 text-violet-600" />
               </div>
-              <CardTitle className="text-2xl text-red-800">Training</CardTitle>
-              <CardDescription className="text-base text-red-600">
+              <CardTitle className="text-2xl text-purple-800">Training</CardTitle>
+              <CardDescription className="text-base text-purple-600">
                 Train and fine-tune models for your specific use cases
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Button
-                onClick={() => navigate("/training")}
-                className="w-full"
+                onClick={() => navigate('/training')}
+                className="w-full border-purple-300 text-purple-700 hover:bg-purple-50"
                 variant="outline"
                 size="lg"
               >
                 Start Training
               </Button>
             </CardContent>
+          </Card>
           </Card>
         </div>
       </div>
