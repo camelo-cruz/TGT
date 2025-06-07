@@ -296,26 +296,12 @@ const Inference = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="source-language">Source Language</Label>
-                <Select
+                <Input
+                  id="source-language"
+                  placeholder="Enter source language (e.g., English, Arabic, Chinese, etc.)"
                   value={selectedLanguage}
-                  onValueChange={setSelectedLanguage}
-                >
-                  <SelectTrigger id="source-language">
-                    <SelectValue placeholder="Select source language" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="es">Spanish</SelectItem>
-                    <SelectItem value="fr">French</SelectItem>
-                    <SelectItem value="de">German</SelectItem>
-                    <SelectItem value="it">Italian</SelectItem>
-                    <SelectItem value="pt">Portuguese</SelectItem>
-                    <SelectItem value="ru">Russian</SelectItem>
-                    <SelectItem value="zh">Chinese</SelectItem>
-                    <SelectItem value="ja">Japanese</SelectItem>
-                    <SelectItem value="ko">Korean</SelectItem>
-                  </SelectContent>
-                </Select>
+                  onChange={(e) => setSelectedLanguage(e.target.value)}
+                />
               </div>
             </CardContent>
           </Card>
