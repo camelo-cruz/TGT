@@ -85,13 +85,13 @@ const Inference = () => {
                 ) : (
                   <XCircle className="w-4 h-4 text-red-600" />
                 )}
-                <span className="text-sm text-slate-600">
+                <span className="text-sm text-red-600">
                   {isConnectedToOneDrive
                     ? "Connected to OneDrive"
                     : "Not connected to OneDrive"}
                 </span>
               </div>
-              <span className="text-sm text-slate-500">v1.0.0</span>
+              <span className="text-sm text-red-500">v1.0.0</span>
             </div>
           </div>
         </div>
@@ -101,13 +101,13 @@ const Inference = () => {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="grid gap-6">
           {/* File Input Section */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+          <Card className="border-red-200">
+            <CardHeader className="bg-red-50">
+              <CardTitle className="flex items-center gap-2 text-red-800">
                 <Upload className="w-5 h-5" />
                 File Input
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-red-600">
                 Choose how you want to provide your files for processing
               </CardDescription>
             </CardHeader>
@@ -126,10 +126,12 @@ const Inference = () => {
           </Card>
 
           {/* OneDrive Integration */}
-          <Card>
-            <CardHeader>
-              <CardTitle>OneDrive Integration</CardTitle>
-              <CardDescription>
+          <Card className="border-red-200">
+            <CardHeader className="bg-red-50">
+              <CardTitle className="text-red-800">
+                OneDrive Integration
+              </CardTitle>
+              <CardDescription className="text-red-600">
                 Connect to your OneDrive account for seamless file access
               </CardDescription>
             </CardHeader>
@@ -167,10 +169,12 @@ const Inference = () => {
           </Card>
 
           {/* Workflow Configuration */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Workflow Configuration</CardTitle>
-              <CardDescription>
+          <Card className="border-red-200">
+            <CardHeader className="bg-red-50">
+              <CardTitle className="text-red-800">
+                Workflow Configuration
+              </CardTitle>
+              <CardDescription className="text-red-600">
                 Configure the processing actions and parameters
               </CardDescription>
             </CardHeader>
@@ -241,12 +245,12 @@ const Inference = () => {
           </Card>
 
           {/* Action Buttons */}
-          <Card>
+          <Card className="border-red-200">
             <CardContent className="pt-6">
               <div className="flex gap-4 justify-center">
                 <Button
                   onClick={handleStart}
-                  className="gap-2 px-8"
+                  className="gap-2 px-8 bg-red-700 hover:bg-red-800 text-white"
                   disabled={!selectedAction || !selectedInstruction}
                 >
                   <Play className="w-4 h-4" />
@@ -255,7 +259,7 @@ const Inference = () => {
                 <Button
                   variant="outline"
                   onClick={handleCancel}
-                  className="gap-2 px-8"
+                  className="gap-2 px-8 border-red-300 text-red-700 hover:bg-red-50"
                 >
                   <X className="w-4 h-4" />
                   Cancel
@@ -267,9 +271,16 @@ const Inference = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-slate-200 bg-white/50">
+      <footer className="mt-16 py-8 border-t border-red-200 bg-white/50">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-slate-600">LeibnizDream</p>
+          <div className="flex items-center justify-center gap-2 text-red-700">
+            <img
+              src="/placeholder.svg"
+              alt="LeibnizDream Logo"
+              className="w-6 h-6"
+            />
+            <p>LeibnizDream</p>
+          </div>
         </div>
       </footer>
     </div>
