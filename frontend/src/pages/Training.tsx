@@ -29,7 +29,7 @@ const Training = () => {
             </Button>
             <div className="flex items-center gap-3">
               <img
-                src="/placeholder.svg"
+                src="/zas_logo.jpg"
                 alt="LeibnizDream Logo"
                 className="w-8 h-8"
               />

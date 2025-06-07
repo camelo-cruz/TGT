@@ -1,17 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle2, Copy, ArrowLeft } from "lucide-react";
 
+const TOKEN_KEY = "access_token";
+
 const AuthSuccess = () => {
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
 
-  // Mock token - in real app this would come from auth state/URL params
-  const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  // 1. Parse the token from the URL hash (e.g. "#token=XYZ")
+  const hash = window.location.hash;
+  const params = new URLSearchParams(hash.slice(1));
+  const accessToken = params.get("token") || "";
 
+  // 2. On mount, store token in the opener, dispatch storage event, notify via postMessage, then close popup
+  useEffect(() => {
+    if (accessToken) {
+      // Write into parent window’s localStorage
+      window.opener?.localStorage.setItem(TOKEN_KEY, accessToken);
+      // Dispatch a storage event on the opener to trigger any listeners
+      window.opener?.dispatchEvent(
+        new StorageEvent('storage', { key: TOKEN_KEY, newValue: accessToken })
+      );
+      // Fallback notification via postMessage
+      window.opener?.postMessage({ type: "onedrive_connected" }, "*");
+      // Close the popup after a brief delay so the UI renders once
+      setTimeout(() => window.close(), 500);
+    } else {
+      // No token found: send the user back home
+      navigate("/", { replace: true });
+    }
+  }, [accessToken, navigate]);
+
+  // 3. Copy-to-clipboard handler
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(accessToken);
@@ -82,19 +105,13 @@ const AuthSuccess = () => {
                     {accessToken}
                   </code>
                 </div>
-
                 {/* Copy Button */}
                 <div className="flex gap-2">
-                  <Button
-                    onClick={copyToClipboard}
-                    className="flex-1 gap-2"
-                    size="lg"
-                  >
+                  <Button onClick={copyToClipboard} className="flex-1 gap-2" size="lg">
                     <Copy className="w-4 h-4" />
                     {copied ? "Copied!" : "Copy Token to Clipboard"}
                   </Button>
                 </div>
-
                 {/* Copied Feedback */}
                 {copied && (
                   <div className="text-center text-green-600 font-medium">

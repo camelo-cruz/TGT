@@ -18,7 +18,7 @@ const Index = () => {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-4 mb-4">
             <img
-              src="/placeholder.svg"
+              src="/zas_logo.jpg"
               alt="LeibnizDream Logo"
               className="w-16 h-16"
             />

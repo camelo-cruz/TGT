@@ -21,7 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/inference" element={<Inference />} />
           <Route path="/training" element={<Training />} />
-          <Route path="/auth-success" element={<AuthSuccess />} />
+          <Route path="/success-auth" element={<AuthSuccess />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
