@@ -57,9 +57,9 @@ const Inference = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-purple-200 sticky top-0 z-10">
+      <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -67,7 +67,7 @@ const Inference = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate("/")}
-                className="gap-2 text-purple-700 hover:text-purple-800 hover:bg-purple-50"
+                className="gap-2"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back
@@ -78,7 +78,7 @@ const Inference = () => {
                   alt="LeibnizDream Logo"
                   className="w-8 h-8"
                 />
-                <h1 className="text-2xl font-bold text-purple-800">
+                <h1 className="text-2xl font-bold text-slate-800">
                   Automatic workflow LeibnizDream
                 </h1>
               </div>
@@ -88,15 +88,15 @@ const Inference = () => {
                 {isConnectedToOneDrive ? (
                   <CheckCircle2 className="w-4 h-4 text-green-600" />
                 ) : (
-                  <XCircle className="w-4 h-4 text-purple-600" />
+                  <XCircle className="w-4 h-4 text-red-600" />
                 )}
-                <span className="text-sm text-purple-600">
+                <span className="text-sm text-slate-600">
                   {isConnectedToOneDrive
                     ? "Connected to OneDrive"
                     : "Not connected to OneDrive"}
                 </span>
               </div>
-              <span className="text-sm text-purple-500">v1.0.0</span>
+              <span className="text-sm text-slate-500">v1.0.0</span>
             </div>
           </div>
         </div>
@@ -106,29 +106,23 @@ const Inference = () => {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="grid gap-6">
           {/* File Input Section */}
-          <Card className="border-purple-200">
-            <CardHeader className="bg-purple-50">
-              <CardTitle className="flex items-center gap-2 text-purple-800">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
                 <Upload className="w-5 h-5" />
                 File Input
               </CardTitle>
-              <CardDescription className="text-purple-600">
+              <CardDescription>
                 Choose how you want to provide your files for processing
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
-                <Button
-                  variant="outline"
-                  className="h-20 flex-col gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
-                >
+                <Button variant="outline" className="h-20 flex-col gap-2">
                   <Globe className="w-6 h-6" />
                   Work Online
                 </Button>
-                <Button
-                  variant="outline"
-                  className="h-20 flex-col gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
-                >
+                <Button variant="outline" className="h-20 flex-col gap-2">
                   <Upload className="w-6 h-6" />
                   Upload Files
                 </Button>
@@ -137,12 +131,10 @@ const Inference = () => {
           </Card>
 
           {/* OneDrive Integration */}
-          <Card className="border-purple-200">
-            <CardHeader className="bg-purple-50">
-              <CardTitle className="text-purple-800">
-                OneDrive Integration
-              </CardTitle>
-              <CardDescription className="text-purple-600">
+          <Card>
+            <CardHeader>
+              <CardTitle>OneDrive Integration</CardTitle>
+              <CardDescription>
                 Connect to your OneDrive account for seamless file access
               </CardDescription>
             </CardHeader>
@@ -153,46 +145,26 @@ const Inference = () => {
                   onClick={() =>
                     setIsConnectedToOneDrive(!isConnectedToOneDrive)
                   }
-                  className={
-                    !isConnectedToOneDrive
-                      ? "bg-purple-700 hover:bg-purple-800 text-white"
-                      : ""
-                  }
                 >
                   {isConnectedToOneDrive ? "Logout" : "Connect OneDrive"}
                 </Button>
-                <Button
-                  variant="outline"
-                  className="border-purple-300 text-purple-700 hover:bg-purple-50"
-                >
-                  Use Token
-                </Button>
+                <Button variant="outline">Use Token</Button>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="directory" className="text-purple-700">
-                  Directory Path
-                </Label>
+                <Label htmlFor="directory">Directory Path</Label>
                 <div className="flex gap-2">
                   <Input
                     id="directory"
                     placeholder="Enter directory path..."
                     value={directoryPath}
                     onChange={(e) => setDirectoryPath(e.target.value)}
-                    className="border-purple-200 focus:border-purple-400"
                   />
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="border-purple-200 text-purple-700 hover:bg-purple-50"
-                  >
+                  <Button variant="outline" size="icon">
                     <FolderOpen className="w-4 h-4" />
                   </Button>
                 </div>
-                <Button
-                  variant="outline"
-                  className="w-fit border-purple-300 text-purple-700 hover:bg-purple-50"
-                >
+                <Button variant="outline" className="w-fit">
                   Select Folder
                 </Button>
               </div>
@@ -200,29 +172,22 @@ const Inference = () => {
           </Card>
 
           {/* Workflow Configuration */}
-          <Card className="border-purple-200">
-            <CardHeader className="bg-purple-50">
-              <CardTitle className="text-purple-800">
-                Workflow Configuration
-              </CardTitle>
-              <CardDescription className="text-purple-600">
+          <Card>
+            <CardHeader>
+              <CardTitle>Workflow Configuration</CardTitle>
+              <CardDescription>
                 Configure the processing actions and parameters
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="action" className="text-purple-700">
-                    Action
-                  </Label>
+                  <Label htmlFor="action">Action</Label>
                   <Select
                     value={selectedAction}
                     onValueChange={setSelectedAction}
                   >
-                    <SelectTrigger
-                      id="action"
-                      className="border-purple-200 focus:border-purple-400"
-                    >
+                    <SelectTrigger id="action">
                       <SelectValue placeholder="Select an action" />
                     </SelectTrigger>
                     <SelectContent>
@@ -237,17 +202,12 @@ const Inference = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="instruction" className="text-purple-700">
-                    Instruction
-                  </Label>
+                  <Label htmlFor="instruction">Instruction</Label>
                   <Select
                     value={selectedInstruction}
                     onValueChange={setSelectedInstruction}
                   >
-                    <SelectTrigger
-                      id="instruction"
-                      className="border-purple-200 focus:border-purple-400"
-                    >
+                    <SelectTrigger id="instruction">
                       <SelectValue placeholder="Select instruction type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -260,17 +220,12 @@ const Inference = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="source-language" className="text-purple-700">
-                  Source Language
-                </Label>
+                <Label htmlFor="source-language">Source Language</Label>
                 <Select
                   value={selectedLanguage}
                   onValueChange={setSelectedLanguage}
                 >
-                  <SelectTrigger
-                    id="source-language"
-                    className="border-purple-200 focus:border-purple-400"
-                  >
+                  <SelectTrigger id="source-language">
                     <SelectValue placeholder="Select source language" />
                   </SelectTrigger>
                   <SelectContent>
@@ -291,12 +246,12 @@ const Inference = () => {
           </Card>
 
           {/* Action Buttons */}
-          <Card className="border-purple-200">
+          <Card>
             <CardContent className="pt-6">
               <div className="flex gap-4 justify-center">
                 <Button
                   onClick={handleStart}
-                  className="gap-2 px-8 bg-purple-700 hover:bg-purple-800 text-white"
+                  className="gap-2 px-8"
                   disabled={!selectedAction || !selectedInstruction}
                 >
                   <Play className="w-4 h-4" />
@@ -305,7 +260,7 @@ const Inference = () => {
                 <Button
                   variant="outline"
                   onClick={handleCancel}
-                  className="gap-2 px-8 border-purple-300 text-purple-700 hover:bg-purple-50"
+                  className="gap-2 px-8"
                 >
                   <X className="w-4 h-4" />
                   Cancel
@@ -317,9 +272,9 @@ const Inference = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 py-8 border-t border-purple-200 bg-white/50">
+      <footer className="mt-16 py-8 border-t border-slate-200 bg-white/50">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 text-purple-700">
+          <div className="flex items-center justify-center gap-2 text-slate-600">
             <img
               src="/placeholder.svg"
               alt="LeibnizDream Logo"

@@ -13,7 +13,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-violet-50 to-purple-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-4">
       <div className="w-full max-w-4xl">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-4 mb-4">
@@ -22,22 +22,21 @@ const Index = () => {
               alt="LeibnizDream Logo"
               className="w-16 h-16"
             />
-            <h1 className="text-4xl font-bold text-purple-800">LeibnizDream</h1>
+            <h1 className="text-4xl font-bold text-slate-800">LeibnizDream</h1>
           </div>
-          <p className="text-xl text-purple-600">
+          <p className="text-xl text-slate-600">
             Choose your workflow to get started
           </p>
         </div>
+
         <div className="grid md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm border-purple-200">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm">
             <CardHeader className="text-center pb-4">
-              <div className="mx-auto mb-4 p-4 bg-purple-100 rounded-full w-fit">
-                <FileText className="w-8 h-8 text-purple-600" />
+              <div className="mx-auto mb-4 p-4 bg-blue-100 rounded-full w-fit">
+                <FileText className="w-8 h-8 text-blue-600" />
               </div>
-              <CardTitle className="text-2xl text-purple-800">
-                Inference
-              </CardTitle>
-              <CardDescription className="text-base text-purple-600">
+              <CardTitle className="text-2xl">Inference</CardTitle>
+              <CardDescription className="text-base">
                 Process and analyze existing content with transcription,
                 translation, and glossing
               </CardDescription>
@@ -45,7 +44,7 @@ const Index = () => {
             <CardContent className="text-center">
               <Button
                 onClick={() => navigate("/inference")}
-                className="w-full bg-purple-700 hover:bg-purple-800 text-white"
+                className="w-full"
                 size="lg"
               >
                 Start Inference
@@ -53,22 +52,20 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm border-purple-200">
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow duration-200 bg-white/80 backdrop-blur-sm">
             <CardHeader className="text-center pb-4">
-              <div className="mx-auto mb-4 p-4 bg-violet-100 rounded-full w-fit">
-                <Brain className="w-8 h-8 text-violet-600" />
+              <div className="mx-auto mb-4 p-4 bg-green-100 rounded-full w-fit">
+                <Brain className="w-8 h-8 text-green-600" />
               </div>
-              <CardTitle className="text-2xl text-purple-800">
-                Training
-              </CardTitle>
-              <CardDescription className="text-base text-purple-600">
+              <CardTitle className="text-2xl">Training</CardTitle>
+              <CardDescription className="text-base">
                 Train and fine-tune models for your specific use cases
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Button
                 onClick={() => navigate("/training")}
-                className="w-full border-purple-300 text-purple-700 hover:bg-purple-50"
+                className="w-full"
                 variant="outline"
                 size="lg"
               >
