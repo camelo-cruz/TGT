@@ -22,9 +22,7 @@ const Index = () => {
               alt="LeibnizDream Logo"
               className="w-16 h-16"
             />
-            <h1 className="text-4xl font-bold text-purple-800">
-              LeibnizDream
-            </h1>
+            <h1 className="text-4xl font-bold text-purple-800">LeibnizDream</h1>
           </div>
           <p className="text-xl text-purple-600">
             Choose your workflow to get started
@@ -36,14 +34,17 @@ const Index = () => {
               <div className="mx-auto mb-4 p-4 bg-purple-100 rounded-full w-fit">
                 <FileText className="w-8 h-8 text-purple-600" />
               </div>
-              <CardTitle className="text-2xl text-purple-800">Inference</CardTitle>
+              <CardTitle className="text-2xl text-purple-800">
+                Inference
+              </CardTitle>
               <CardDescription className="text-base text-purple-600">
-                Process and analyze existing content with transcription, translation, and glossing
+                Process and analyze existing content with transcription,
+                translation, and glossing
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Button
-                onClick={() => navigate('/inference')}
+                onClick={() => navigate("/inference")}
                 className="w-full bg-purple-700 hover:bg-purple-800 text-white"
                 size="lg"
               >
@@ -57,14 +58,16 @@ const Index = () => {
               <div className="mx-auto mb-4 p-4 bg-violet-100 rounded-full w-fit">
                 <Brain className="w-8 h-8 text-violet-600" />
               </div>
-              <CardTitle className="text-2xl text-purple-800">Training</CardTitle>
+              <CardTitle className="text-2xl text-purple-800">
+                Training
+              </CardTitle>
               <CardDescription className="text-base text-purple-600">
                 Train and fine-tune models for your specific use cases
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Button
-                onClick={() => navigate('/training')}
+                onClick={() => navigate("/training")}
                 className="w-full border-purple-300 text-purple-700 hover:bg-purple-50"
                 variant="outline"
                 size="lg"
@@ -72,7 +75,6 @@ const Index = () => {
                 Start Training
               </Button>
             </CardContent>
-          </Card>
           </Card>
         </div>
       </div>
