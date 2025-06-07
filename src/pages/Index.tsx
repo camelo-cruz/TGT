@@ -22,9 +22,7 @@ const Index = () => {
               alt="LeibnizDream Logo"
               className="w-16 h-16"
             />
-            <h1 className="text-4xl font-bold text-red-800">
-              LeibnizDream
-            </h1>
+            <h1 className="text-4xl font-bold text-red-800">LeibnizDream</h1>
           </div>
           <p className="text-xl text-red-600">
             Choose your workflow to get started
@@ -39,12 +37,13 @@ const Index = () => {
               </div>
               <CardTitle className="text-2xl text-red-800">Inference</CardTitle>
               <CardDescription className="text-base text-red-600">
-                Process and analyze existing content with transcription, translation, and glossing
+                Process and analyze existing content with transcription,
+                translation, and glossing
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
               <Button
-                onClick={() => navigate('/inference')}
+                onClick={() => navigate("/inference")}
                 className="w-full bg-red-700 hover:bg-red-800 text-white"
                 size="lg"
               >
@@ -65,7 +64,7 @@ const Index = () => {
             </CardHeader>
             <CardContent className="text-center">
               <Button
-                onClick={() => navigate('/training')}
+                onClick={() => navigate("/training")}
                 className="w-full"
                 variant="outline"
                 size="lg"
@@ -73,7 +72,6 @@ const Index = () => {
                 Start Training
               </Button>
             </CardContent>
-          </Card>
           </Card>
         </div>
       </div>
