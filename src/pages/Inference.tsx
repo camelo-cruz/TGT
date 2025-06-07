@@ -18,6 +18,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -28,6 +49,11 @@ import {
   X,
   CheckCircle2,
   XCircle,
+  Terminal,
+  Copy,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 const Inference = () => {
@@ -37,15 +63,82 @@ const Inference = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [directoryPath, setDirectoryPath] = useState("");
   const [isConnectedToOneDrive, setIsConnectedToOneDrive] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
+  const [isLogsExpanded, setIsLogsExpanded] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const logsEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when new logs are added
+  useEffect(() => {
+    logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [logs]);
+
+  const addLog = (
+    message: string,
+    type: "info" | "success" | "error" | "warning" = "info",
+  ) => {
+    const timestamp = new Date().toLocaleTimeString();
+    const prefix =
+      type === "error"
+        ? "❌"
+        : type === "success"
+          ? "✅"
+          : type === "warning"
+            ? "⚠️"
+            : "ℹ️";
+    setLogs((prev) => [...prev, `[${timestamp}] ${prefix} ${message}`]);
+  };
+
+  const clearLogs = () => {
+    setLogs([]);
+  };
+
+  const copyLogs = () => {
+    navigator.clipboard.writeText(logs.join("\n"));
+    addLog("Logs copied to clipboard", "success");
+  };
+
+  const simulateWorkflow = async () => {
+    setIsProcessing(true);
+    addLog("Starting LeibnizDream workflow...", "info");
+    addLog(`Action: ${selectedAction}`, "info");
+    addLog(`Instruction type: ${selectedInstruction}`, "info");
+    addLog(`Source language: ${selectedLanguage}`, "info");
+
+    // Simulate processing steps
+    const steps = [
+      "Initializing workflow engine...",
+      "Connecting to processing servers...",
+      "Validating input parameters...",
+      "Loading language models...",
+      "Processing files...",
+      "Applying transformations...",
+      "Generating output...",
+      "Workflow completed successfully!",
+    ];
+
+    for (let i = 0; i < steps.length; i++) {
+      await new Promise((resolve) =>
+        setTimeout(resolve, 1000 + Math.random() * 1500),
+      );
+      if (i === steps.length - 1) {
+        addLog(steps[i], "success");
+      } else {
+        addLog(steps[i], "info");
+      }
+    }
+    setIsProcessing(false);
+  };
 
   const handleStart = () => {
-    // TODO: Implement start functionality
-    console.log("Starting workflow with:", {
-      action: selectedAction,
-      instruction: selectedInstruction,
-      language: selectedLanguage,
-      directory: directoryPath,
-    });
+    if (!selectedAction || !selectedInstruction) {
+      addLog(
+        "Please select both action and instruction before starting",
+        "error",
+      );
+      return;
+    }
+    simulateWorkflow();
   };
 
   const handleCancel = () => {
@@ -252,21 +345,121 @@ const Inference = () => {
                 <Button
                   onClick={handleStart}
                   className="gap-2 px-8"
-                  disabled={!selectedAction || !selectedInstruction}
+                  disabled={
+                    !selectedAction || !selectedInstruction || isProcessing
+                  }
                 >
                   <Play className="w-4 h-4" />
-                  Start
+                  {isProcessing ? "Processing..." : "Start"}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={handleCancel}
                   className="gap-2 px-8"
+                  disabled={isProcessing}
                 >
                   <X className="w-4 h-4" />
                   Cancel
                 </Button>
               </div>
             </CardContent>
+          </Card>
+
+          {/* Workflow Logs */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-5 h-5" />
+                  <CardTitle>Workflow Logs</CardTitle>
+                  {logs.length > 0 && (
+                    <Badge variant="secondary" className="ml-2">
+                      {logs.length} entries
+                    </Badge>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  {logs.length > 0 && (
+                    <>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={copyLogs}
+                        className="gap-1"
+                      >
+                        <Copy className="w-3 h-3" />
+                        Copy
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={clearLogs}
+                        className="gap-1"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                        Clear
+                      </Button>
+                    </>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsLogsExpanded(!isLogsExpanded)}
+                    className="gap-1"
+                  >
+                    {isLogsExpanded ? (
+                      <ChevronUp className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                    {isLogsExpanded ? "Collapse" : "Expand"}
+                  </Button>
+                </div>
+              </div>
+              <CardDescription>
+                Real-time workflow logs and status updates
+              </CardDescription>
+            </CardHeader>
+            {isLogsExpanded && (
+              <CardContent>
+                <div className="bg-slate-950 rounded-lg p-4 font-mono text-sm">
+                  <ScrollArea className="h-80 w-full">
+                    {logs.length === 0 ? (
+                      <div className="text-slate-400 italic text-center py-8">
+                        No logs yet. Start a workflow to see real-time updates
+                        here.
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        {logs.map((log, index) => (
+                          <div
+                            key={index}
+                            className={`text-sm ${
+                              log.includes("❌")
+                                ? "text-red-400"
+                                : log.includes("✅")
+                                  ? "text-green-400"
+                                  : log.includes("⚠️")
+                                    ? "text-yellow-400"
+                                    : "text-slate-300"
+                            }`}
+                          >
+                            {log}
+                          </div>
+                        ))}
+                        <div ref={logsEndRef} />
+                      </div>
+                    )}
+                  </ScrollArea>
+                </div>
+                {isProcessing && (
+                  <div className="mt-4 flex items-center gap-2 text-sm text-slate-600">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    Workflow in progress...
+                  </div>
+                )}
+              </CardContent>
+            )}
           </Card>
         </div>
       </main>
