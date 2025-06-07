@@ -265,6 +265,9 @@ const Inference = () => {
                     <SelectContent>
                       <SelectItem value="transcribe">Transcribe</SelectItem>
                       <SelectItem value="translate">Translate</SelectItem>
+                      <SelectItem value="transliterate">
+                        Transliterate
+                      </SelectItem>
                       <SelectItem value="gloss">Gloss</SelectItem>
                       <SelectItem value="create-columns">
                         Create columns
