@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import JSZip from "jszip";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
