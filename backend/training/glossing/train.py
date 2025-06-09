@@ -51,7 +51,7 @@ def gloss_to_ud_features(gloss: str) -> list[str]:
     for token in gloss.split():
         # 1) no "." means no glossed features → UD uses "_"
         if "." not in token:
-            per_token_feats.append("_")
+            per_token_feats.append("")
             continue
 
         # 2) strip off the leading lexeme portion (up to first dot)

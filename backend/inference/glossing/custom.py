@@ -35,9 +35,9 @@ class CustomGlossingStrategy(GlossingStrategy):
                 morph = token.morph.to_dict()
 
                 # Translate lemma → English
-                translated_lemma = self.translation_strategy.translate(text=lemma)
-                if isinstance(translated_lemma, str):
-                    translated_lemma = translated_lemma.lower().replace(" ", "-")
+                #translated_lemma = self.translation_strategy.translate(text=lemma)
+                if isinstance(lemma, str):
+                    lemma = lemma.lower().replace(" ", "-")
 
                 # Map morphological features via LEIPZIG_GLOSSARY
                 arttype = LEIPZIG_GLOSSARY.get(morph.get("PronType"), morph.get("PronType"))
@@ -50,7 +50,7 @@ class CustomGlossingStrategy(GlossingStrategy):
                 mood   = LEIPZIG_GLOSSARY.get(morph.get("Mood"), morph.get("Mood"))
 
                 glossed_word = (
-                    f"{translated_lemma}.{arttype}.{definite}."
+                    f"{lemma}.{arttype}.{definite}."
                     f"{gender}.{person}.{number}.{case}.{tense}.{mood}"
                 )
                 # strip any “None” bits
