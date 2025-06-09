@@ -5,6 +5,7 @@ import pandas as pd
 import spacy
 import srsly
 import re
+import logging
 import string
 from pathlib import Path
 from spacy.tokens import DocBin
@@ -14,17 +15,19 @@ from spacy.training.loop import train as train_nlp
 from spacy.util import load_config
 from spacy.cli._util import setup_gpu, show_validation_error
 from wasabi import msg
-from utils.functions import load_glossing_rules
+from utils.functions import load_glossing_rules, setup_logging
 
 # Load mapping resources
 LEIPZIG_GLOSSARY = load_glossing_rules("LEIPZIG_GLOSSARY.json")
-VALUE2FEATURE = load_glossing_rules("VALUE2FEATURE.json")
-INV_GLOSS = {v: k for k, v in LEIPZIG_GLOSSARY.items()}
+SPACY2CATEGORY = load_glossing_rules("VALUE2FEATURE.json")
+LEIPZIG2SPACY = {v: k for k, v in LEIPZIG_GLOSSARY.items()}
 
 script_dir = Path(__file__).parent
 
 # Metrics to collect during evaluation
-METRICS = ["token_acc", "pos_acc", "morph_acc", "tag_acc", "dep_uas", "dep_las"]
+METRICS = ["token_acc", "morph_acc"]
+
+logger = logging.getLogger(__name__)
 
 def clean_text(text: str) -> str:
     """
@@ -34,42 +37,44 @@ def clean_text(text: str) -> str:
     if not isinstance(text, str):
         return ""
     text = re.sub(r"\d+", "", text)  # remove numbers
-    text = text.replace("..", ".")
-    text = re.sub(r"[\[\]\(\)\{\}]", "", text)
+    text = text.replace("..", ".") # replace double dots with single dot
+    text = re.sub(r"[\[\]\(\)\{\}]", "", text) # remove brackets
+    text = text.replace(",", "")  # replace newlines with space
+    text = text.strip().strip('.')
+    text = text.lower()  # convert to lowercase
     return text.strip()
 
 
 def gloss_to_ud_features(gloss: str) -> list[str]:
-    """
-    Convert a Leipzig‐style gloss string into per‐token UD feature strings.
-    Tokens with no gloss (“no . ”) become "_" (the UD no‐feature marker).
-    """
     if not isinstance(gloss, str):
         return []
 
     per_token_feats: list[str] = []
+    token_without_gloss: list[str] = []
+    unknown_codes: list[str] = []
     for token in gloss.split():
-        # 1) no "." means no glossed features → UD uses "_"
+        # Case 1: no “.” ⇒ not glossed
         if "." not in token:
-            per_token_feats.append("")
+            per_token_feats.append('')
+            token_without_gloss.append(token)
             continue
 
-        # 2) strip off the leading lexeme portion (up to first dot)
-        codes = token.split(".")[1:]
-
+        # Case 2: has gloss, map each code
+        codes = [c.upper() for c in token.split(".")[1:]]  # Convert codes to uppercase
         feats: list[str] = []
         for code in codes:
-            ud_val = INV_GLOSS.get(code)
-            feat_name = VALUE2FEATURE.get(ud_val)
-            # only keep well‐known mappings
-            if ud_val and feat_name:
-                feats.append(f"{feat_name}={ud_val}")
+            spacy_value = LEIPZIG2SPACY.get(code)
+            feat_name   = SPACY2CATEGORY.get(spacy_value)
+            if spacy_value and feat_name:
+                feats.append(f"{feat_name}={spacy_value}")
+            else:
+                unknown_codes.append(code)
 
-        # 3) if we got nothing after filtering, still emit "_"
-        if not feats:
-            per_token_feats.append("_")
-        else:
-            per_token_feats.append("|".join(feats))
+        # If no features mapped, use “_” as placeholder
+        per_token_feats.append("|".join(feats) if feats else "_")
+
+    logger.debug(f"tokens without gloss: {token_without_gloss}")
+    logger.debug(f"unknown codes: {unknown_codes}")
 
     return per_token_feats
 
@@ -83,7 +88,11 @@ def build_docbin(lang: str, input_dir: str) -> DocBin:
         for fname in files:
             if not fname.endswith("annotated.xlsx"):
                 continue
+
+            base = os.path.abspath(os.path.join(root, '..'))
             file_path = os.path.join(root, fname)
+            log_path = os.path.join(base, "transcription.log")
+            logging_fh = setup_logging(logger, log_path)
             df = pd.read_excel(file_path, nrows=60)
             df = df.dropna(subset=["latin_transcription_utterance_used", "glossing_utterance_used"])
 
@@ -103,34 +112,27 @@ def build_docbin(lang: str, input_dir: str) -> DocBin:
                 cleaned_glosses.extend(gloss_lines)
             
 
-            # Align lengths by minimum (so each row has both text & gloss)
-            min_len = min(len(cleaned_texts), len(cleaned_glosses))
-            aligned_texts = cleaned_texts[:min_len]
-            aligned_glosses = cleaned_glosses[:min_len]
-
+            if len(cleaned_texts) != len(cleaned_glosses):
+                raise ValueError(f"Mismatch in lengths: {len(cleaned_texts)} texts vs {len(cleaned_glosses)} glosses in file {file_path}")
+            else:
+                msg.good(f"Matched {len(cleaned_texts)} texts with {len(cleaned_glosses)} glosses in file {file_path}")
+                logger.info(f"Processing {len(cleaned_texts)} texts and glosses from {file_path}")
+            
             # Build DataFrame
             inspect_df = pd.DataFrame({
-                "cleaned_text": aligned_texts,
-                "cleaned_gloss": aligned_glosses
+                "cleaned_text": cleaned_texts,
+                "cleaned_gloss": cleaned_glosses
             })
 
             # Save to Excel for full inspection
             inspect_df.to_excel(script_dir / "data" / "cleaned_inspection.xlsx", index=False)
 
-            if len(cleaned_texts) != len(cleaned_glosses):
-                msg.warn(f"Mismatch in lengths: {len(cleaned_texts)} texts vs {len(cleaned_glosses)} glosses in file {file_path}")
-                continue
-
             feats_list = [gloss_to_ud_features(g) for g in cleaned_glosses]
 
             for text, feats in zip(cleaned_texts, feats_list):
-                if not text:
-                    msg.warn("Skipping empty text after cleaning")
-                    continue
                 doc = nlp(text)
                 if len(doc) != len(feats):
-                    msg.warn(f"Token count mismatch: '{text}' has {len(doc)} tokens but {len(feats)} feature sets: {feats}")
-                    continue
+                    raise ValueError(f"Token count mismatch in row: '{text}' has {len(doc)} tokens but {len(feats)} in file {file_path}")
                 for token, feat in zip(doc, feats):
                     token.set_morph(feat)
                 docbin.add(doc)
@@ -235,6 +237,6 @@ def run_training(
 
 if __name__ == "__main__":
     run_training(lang="de", 
-                data_dir="C:/Users/camelo.cruz/Desktop/OneDrive_2025-06-09",
-                model="de_dep_news_trf",
+                data_dir='/Users/alejandra/Library/CloudStorage/OneDrive-FreigegebeneBibliotheken–Leibniz-ZAS/Leibniz Dream Data - Studies/tests_alejandra/german/Session_1152193 glossing',
+                #model="de_dep_news_trf",
                 n_folds=5, shuffle=True, use_gpu=0)

@@ -183,5 +183,5 @@ def setup_logging(logger, log_path):
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
 
-    return file_handler  # so you can later remove it if needed
+    return file_handler
 
