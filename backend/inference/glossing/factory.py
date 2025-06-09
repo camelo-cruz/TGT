@@ -17,4 +17,4 @@ class GlossingStrategyFactory:
         elif language_code == "pt":
             return PortugueseGlossingStrategy(language_code)
         else:
-            return DefaultGlossingStrategy(language_code)
+            raise ValueError(f"No glossing strategy available for language code: {language_code}")
