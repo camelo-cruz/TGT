@@ -1,4 +1,4 @@
-from .abstract import TranslationStrategy
+from inference.translation.abstract import TranslationStrategy
 
 class DefaultTranslationStrategy(TranslationStrategy):
     """

@@ -5,10 +5,10 @@ from deep_translator import GoogleTranslator
 from spacy.cli import download
 from spacy.util import is_package
 from utils.functions import load_glossing_rules
-from .abstract import GlossingStrategy
+from inference.glossing.abstract import GlossingStrategy
 
 
-LEIPZIG_GLOSSARY = load_glossing_rules("LEIPZIG_GLOSSARY")
+LEIPZIG_GLOSSARY = load_glossing_rules("LEIPZIG_GLOSSARY.json")
 
 class DefaultGlossingStrategy(GlossingStrategy):
     def __init__(self, language_code: str):

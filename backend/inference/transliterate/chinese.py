@@ -1,4 +1,5 @@
 from pypinyin import lazy_pinyin, Style
+from inference.translation.abstract import TransliterationStrategy
 
 class ChineseStrategy(TransliterationStrategy):
     def __init__(self):

@@ -1,3 +1,7 @@
+from inference.translation.abstract import TransliterationStrategy
+import spacy
+import pykakasi
+
 class JapaneseStrategy(TransliterationStrategy):
     def __init__(self):
         # Load heavy models once

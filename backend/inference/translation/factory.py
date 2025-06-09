@@ -1,5 +1,5 @@
-from .abstract import TranslationStrategy
-from .default import DefaultTranslationStrategy
+from inference.translation.abstract import TranslationStrategy
+from inference.translation.default import DefaultTranslationStrategy
 
 
 class TranslationStrategyFactory:

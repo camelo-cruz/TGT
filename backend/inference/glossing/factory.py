@@ -1,8 +1,8 @@
-from .abstract import GlossingStrategy
-from .default import DefaultGlossingStrategy
-from .japanese import JapaneseGlossingStrategy
-from .vietnamese import VietnameseGlossingStrategy
-from .portuguese import PortugueseGlossingStrategy
+from inference.glossing.abstract import GlossingStrategy
+from inference.glossing.default import DefaultGlossingStrategy
+from inference.glossing.japanese import JapaneseGlossingStrategy
+from inference.glossing.vietnamese import VietnameseGlossingStrategy
+from inference.glossing.portuguese import PortugueseGlossingStrategy
 
 
 class GlossingStrategyFactory:
