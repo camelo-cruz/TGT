@@ -11,7 +11,7 @@ from spacy.tokens import DocBin
 from spacy.training.corpus import Corpus
 from spacy.training.initialize import init_nlp
 from spacy.training.loop import train as train_nlp
-from spacy.util import load_config, get_package_path
+from spacy.util import load_config
 from spacy.cli._util import setup_gpu, show_validation_error
 from wasabi import msg
 from utils.functions import load_glossing_rules
@@ -158,15 +158,18 @@ def flatten(list_of_lists: list[list]):
 def run_training(
     lang: str,
     data_dir: str,
-    base_model: str = None,    # e.g. "de_dep_news_trf"
-    n_folds: int = 5,
+    model: str = None,   # ← new arg: path to an existing spaCy model
+    n_folds: int = 10,
     shuffle: bool = False,
-    use_gpu: int = 0,          # 0 for GPU, -1 for CPU
+    use_gpu: int = 0,
 ):
     script_dir = Path(__file__).parent
+    config_path = str(script_dir / "config.cfg")
+    output_path = str(script_dir / "output" / f"results-{lang}.json")
+    os.makedirs(Path(output_path).parent, exist_ok=True)
     setup_gpu(use_gpu)
 
-    # 1. Build data & split
+    # build data
     docbin = build_docbin(lang, data_dir)
     docs = list(docbin.get_docs(spacy.blank(lang).vocab))
     if shuffle:
@@ -174,76 +177,64 @@ def run_training(
     folds = chunk(docs, n_folds)
     all_scores = {m: [] for m in METRICS}
 
-    for fold_idx, dev_docs in enumerate(folds, start=1):
-        train_docs = flatten([f for i,f in enumerate(folds) if i != fold_idx-1])
-        msg.divider(f"Fold {fold_idx} — train {len(train_docs)}, dev {len(dev_docs)}")
+    for idx, dev in enumerate(folds):
+        train = flatten([f for i, f in enumerate(folds) if i != idx])
+        msg.divider(f"Fold {idx+1} — train {len(train)}, dev {len(dev)}")
 
         with tempfile.TemporaryDirectory() as tmpdir:
             train_path = os.path.join(tmpdir, "train.spacy")
             dev_path   = os.path.join(tmpdir, "dev.spacy")
-            DocBin(docs=train_docs).to_disk(train_path)
-            DocBin(docs=dev_docs).to_disk(dev_path)
+            DocBin(docs=train).to_disk(train_path)
+            DocBin(docs=dev).to_disk(dev_path)
 
-            if base_model:
-                msg.info(f"Loading base model: {base_model}")
-                nlp_base = spacy.load(base_model)
-
-                # Grab and mutate its in-memory config
-                config = nlp_base.config
-                config["paths"]["train"] = train_path
-                config["paths"]["dev"]   = dev_path
-                config["nlp"]["lang"]    = lang
-                config["nlp"]["pipeline"] = [
-                    "transformer","tagger","parser",
-                    "attribute_ruler","lemmatizer","morphologizer"
-                ]
-                config["training"]["frozen_components"] = [
-                    "transformer","tagger","parser",
-                    "attribute_ruler","lemmatizer"
-                ]
-
-                # Rebuild the pipeline *with* all pretrained weights intact
-                nlp = init_nlp(config)
-
-            else:
-                # No base model: start from a file-based config as before
-                pkg_cfg = script_dir / "config.cfg"
+            if model:
+                msg.info(f"Loading base model from {model}")
+                nlp = spacy.load(model)
+                config = nlp.config
                 overrides = {
                     "paths.train": train_path,
                     "paths.dev":   dev_path,
                     "nlp.lang":    lang,
-                    "nlp.pipeline": ["tok2vec","morphologizer"],
-                    "training.frozen_components": [],
                 }
-                config = load_config(pkg_cfg, overrides, interpolate=False)
-                nlp = init_nlp(config)
+            else:
+                overrides = {
+                    "paths.train": train_path,
+                    "paths.dev":   dev_path,
+                    "nlp.lang":    lang,
+                }
 
-            # 4. Train
-            with show_validation_error(str(base_model or pkg_cfg), hint_fill=False):
-                nlp, _ = train_nlp(nlp, None)
+            with show_validation_error(config_path, hint_fill=False):
+                config = load_config(config_path, overrides, interpolate=False)
+                
+            nlp = init_nlp(config)
 
-            # 5. Evaluate
+            # Now you have a valid config with train/dev paths set:
+            nlp, _ = train_nlp(nlp, None)
+
             corpus = Corpus(dev_path, gold_preproc=False)
             scores = nlp.evaluate(list(corpus(nlp)))
             for m in METRICS:
                 all_scores[m].append(scores.get(m, 0.0))
 
-    # 6. Report & save
-    avg = {m: sum(v)/len(v) for m, v in all_scores.items()}
-    msg.table(avg, header=("Metric","Score"))
-    srsly.write_json(script_dir / "output" / f"results-{lang}.json", avg)
 
-    out_dir = script_dir / "models" / f"{lang}_custom_glossing"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    nlp.to_disk(out_dir)
-    msg.good(f"Saved trained model to {out_dir}")
+    # report averages
+    avg = {m: sum(v if v is not None else 0.0 for v in vals)/len(vals)
+           for m, vals in all_scores.items()}
+    msg.table(avg, header=("Metric","Score"))
+    srsly.write_json(output_path, avg)
+    msg.good(f"Saved results to {output_path}")
+
+    # save the last nlp to disk
+    output_name = f"{lang}_custom_glossing" if not model else f"{model}_custom_glossing"
+    model_output = script_dir / "models" / output_name
+    os.makedirs(model_output, exist_ok=True)
+    nlp.to_disk(model_output)
+    msg.good(f"Saved trained model to {model_output}")
+
+
 
 if __name__ == "__main__":
-    run_training(
-        lang="de",
-        data_dir="path/to/your/annotated/data",
-        base_model="de_dep_news_trf",  # or None
-        n_folds=5,
-        shuffle=True,
-        use_gpu=0,                     # 0 for first GPU, -1 for CPU
-    )
+    run_training(lang="de", 
+                data_dir="C:/Users/camelo.cruz/Desktop/OneDrive_2025-06-09",
+                model="de_dep_news_trf",
+                n_folds=5, shuffle=True, use_gpu=0)
