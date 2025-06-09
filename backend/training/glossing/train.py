@@ -41,36 +41,36 @@ def clean_text(text: str) -> str:
 
 def gloss_to_ud_features(gloss: str) -> list[str]:
     """
-    Convert a glossed string into per-token UD feature strings.
-    Handles non-str or missing inputs by returning an empty list.
-    E.g., "ART.DEF.M.SG.NOM rabbit.M.SG.NOM" -> ["PronType=Art|Definite=Def|...", "Gender=Masc|..."]
+    Convert a Leipzig‐style gloss string into per‐token UD feature strings.
+    Tokens with no gloss (“no . ”) become "_" (the UD no‐feature marker).
     """
     if not isinstance(gloss, str):
         return []
 
-    not_known_codes: list[str] = []
-    not_known_features: list[str] = []
     per_token_feats: list[str] = []
-    for token in gloss.split(" "):
-        token = token.strip()
-        if '.' in token:
-            token = token[token.index('.')+1:]  # Remove text before first dot
-        if '.' not in token:
-            token = "<ignore>"
+    for token in gloss.split():
+        # 1) no "." means no glossed features → UD uses "_"
+        if "." not in token:
+            per_token_feats.append("_")
+            continue
+
+        # 2) strip off the leading lexeme portion (up to first dot)
+        codes = token.split(".")[1:]
+
         feats: list[str] = []
-        for code in token.split("."):
+        for code in codes:
             ud_val = INV_GLOSS.get(code)
-            if not ud_val:
-                not_known_codes.append(code)
             feat_name = VALUE2FEATURE.get(ud_val)
-            if not feat_name:
-                not_known_features.append(ud_val)
-            feats.append(f"{feat_name}={ud_val}")
-        per_token_feats.append("|".join(feats))
-    if not_known_codes:
-        msg.warn(f"Unknown codes in gloss: {not_known_codes}")
-    if not_known_features:
-        msg.warn(f"Unknown features in gloss: {not_known_features}")
+            # only keep well‐known mappings
+            if ud_val and feat_name:
+                feats.append(f"{feat_name}={ud_val}")
+
+        # 3) if we got nothing after filtering, still emit "_"
+        if not feats:
+            per_token_feats.append("_")
+        else:
+            per_token_feats.append("|".join(feats))
+
     return per_token_feats
 
 

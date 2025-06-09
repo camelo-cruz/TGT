@@ -61,6 +61,6 @@ class CustomGlossingStrategy(GlossingStrategy):
 if __name__ == "__main__":
     glossing_strategy = CustomGlossingStrategy(language_code="de")
     glossing_strategy.load_model()
-    sentence = "Hut"
+    sentence = "Ich sage dir, dass er ein guter Lehrer ist."
     glossed_sentence = glossing_strategy.gloss(sentence)
     print(glossed_sentence)

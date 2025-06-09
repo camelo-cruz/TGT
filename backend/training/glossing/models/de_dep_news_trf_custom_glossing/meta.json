@@ -21,47 +21,19 @@
 
     ],
     "morphologizer":[
-      "Case=Acc|Definite=Def|Gender=Neut|Number=Sing|PronType=Art",
-      "Case=Acc|Gender=Neut|Number=Sing",
-      "<ignore>=<ignore>",
-      "Case=Dat|Gender=Neut|Number=Sing|Tense=Rel",
-      "Case=Nom|Definite=Def|Gender=Fem|Number=Sing|PronType=Art",
-      "Case=Nom|Gender=Fem|Number=Sing",
-      "Mood=Ind|Number=Sing|Tense=Pres",
       "Case=Nom|Definite=Def|Gender=Masc|Number=Sing|PronType=Art",
       "Case=Nom|Gender=Masc|Number=Sing",
-      "Case=Nom|Gender=Masc|Number=Sing|Tense=Rel",
-      "Case=Nom|Definite=Def|Gender=Neut|Number=Sing|PronType=Art",
-      "Case=Dat|Gender=Masc|Number=Sing|Tense=Rel",
-      "Case=Dat|Definite=Def|Gender=Fem|Number=Plur|PronType=Art",
-      "Case=Dat|Gender=Fem|Number=Plur",
-      "Case=Nom|Definite=Def|Gender=Masc|Number=Plur|PronType=Art",
-      "Case=Nom|Gender=Masc|Number=Plur",
-      "Case=Nom|Gender=Masc|Number=Plur|Tense=Rel",
-      "Case=Acc|Definite=Def|Gender=Fem|Number=Sing|PronType=Art",
-      "Case=Acc|Gender=Fem|Number=Sing",
-      "Mood=Ind|Number=Plur|Tense=Pres",
-      "Case=Nom|Gender=Neut|Number=Sing",
+      "_",
       "Case=Dat|Definite=Def|Gender=Masc|Number=Sing|PronType=Art",
       "Case=Dat|Gender=Masc|Number=Sing",
-      "None=None|Number=Sing",
+      "Case=Nom|Definite=Def|Gender=Fem|Number=Sing|PronType=Art",
+      "Case=Nom|Gender=Fem|Number=Sing",
       "Case=Nom|Gender=Masc|Number=Sing|PronType=Dem",
-      "Case=Acc|Definite=Def|Gender=Fem|Number=Plur|PronType=Art",
-      "Case=Acc|Gender=Fem|Number=Plur",
-      "Case=Nom|Gender=Fem|Number=Plur|Tense=Rel",
-      "Case=Acc|Definite=Def|Gender=Neut|Number=Plur|PronType=Art",
-      "Case=Acc|Gender=Neut|Number=Plur",
-      "Case=Nom|Gender=Neut|Number=Plur|Tense=Rel",
-      "Case=Acc|Gender=Fem|Number=Sing|PronType=Dem",
-      "Case=Nom|None=None|Number=Sing",
-      "Case=Dat|Gender=Neut|Number=Sing",
-      "Case=Nom|Gender=Neut|Number=Sing|Tense=Rel",
-      "Case=Nom|Gender=Fem|Number=Sing|Tense=Rel",
-      "Case=Dat|Definite=Def|Gender=Fem|Number=Sing|PronType=Art",
-      "Case=Dat|Gender=Fem|Number=Sing",
-      "Case=Acc|Definite=Def|Gender=Masc|Number=Plur|PronType=Art",
-      "Case=Acc|Gender=Masc|Number=Plur",
-      "Case=Nom|Number=Sing"
+      "Mood=Ind|Number=Sing|Tense=Pres",
+      "Case=Acc|Definite=Def|Gender=Neut|Number=Sing|PronType=Art",
+      "Case=Nom|Gender=Neut|Number=Sing",
+      "Case=Nom|Number=Sing",
+      "Number=Sing"
     ]
   },
   "pipeline":[
@@ -77,47 +49,32 @@
   ],
   "performance":{
     "pos_acc":0.0,
-    "morph_acc":0.8125,
+    "morph_acc":0.6666666667,
     "morph_per_feat":{
       "Case":{
-        "p":0.8,
-        "r":0.8,
-        "f":0.8
+        "p":1.0,
+        "r":1.0,
+        "f":1.0
       },
       "Definite":{
-        "p":0.9090909091,
-        "r":0.9090909091,
-        "f":0.9090909091
+        "p":1.0,
+        "r":1.0,
+        "f":1.0
       },
       "Gender":{
-        "p":0.92,
-        "r":0.92,
-        "f":0.92
+        "p":1.0,
+        "r":1.0,
+        "f":1.0
       },
       "Number":{
-        "p":0.9230769231,
-        "r":0.8888888889,
-        "f":0.9056603774
+        "p":1.0,
+        "r":1.0,
+        "f":1.0
       },
       "PronType":{
-        "p":0.9090909091,
-        "r":0.9090909091,
-        "f":0.9090909091
-      },
-      "<ignore>":{
-        "p":0.8333333333,
+        "p":1.0,
         "r":1.0,
-        "f":0.9090909091
-      },
-      "Mood":{
-        "p":1.0,
-        "r":0.5,
-        "f":0.6666666667
-      },
-      "Tense":{
-        "p":1.0,
-        "r":0.6666666667,
-        "f":0.8
+        "f":1.0
       }
     },
     "dep_las_per_type":0.0,
@@ -127,7 +84,7 @@
     "dep_uas":0.0,
     "dep_las":0.0,
     "sents_f":0.0,
-    "tok2vec_loss":0.0000001527,
-    "morphologizer_loss":0.0000003864
+    "tok2vec_loss":0.0000000032,
+    "morphologizer_loss":0.0000000178
   }
 }

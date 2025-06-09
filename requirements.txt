@@ -39,3 +39,4 @@ stanza
 python-multipart
 cupy-cuda12x; sys_platform == "linux"
 sacremoses
+pypinying

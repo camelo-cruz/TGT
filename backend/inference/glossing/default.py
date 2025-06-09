@@ -43,6 +43,7 @@ class DefaultGlossingStrategy(GlossingStrategy):
             else:
                 lemma = token.lemma_
                 morph = token.morph.to_dict()
+                print(f"Token: {token.text}, Lemma: {lemma}, Morph: {token.morph}, type: {type(token.morph)}")
 
                 # Translate lemma → English
                 translated_lemma = self.translation_strategy.translate(text=lemma)
@@ -67,3 +68,11 @@ class DefaultGlossingStrategy(GlossingStrategy):
                 glossed_word = re.sub(r"(?:\.|-|\b)None", "", glossed_word)
                 glossed_sentence += glossed_word + " "
         return glossed_sentence.strip()
+
+
+if __name__ == "__main__":
+    glossing_strategy = DefaultGlossingStrategy(language_code="de")
+    glossing_strategy.load_model()
+    sentence = "Ich sage dir, dass er ein guter Lehrer ist."
+    glossed_sentence = glossing_strategy.gloss(sentence)
+    print(glossed_sentence)
