@@ -43,7 +43,6 @@ class DefaultGlossingStrategy(GlossingStrategy):
             else:
                 lemma = token.lemma_
                 morph = token.morph.to_dict()
-                print(f"Token: {token.text}, Lemma: {lemma}, Morph: {token.morph}, type: {type(token.morph)}")
 
                 # Translate lemma → English
                 translated_lemma = self.translation_strategy.translate(text=lemma)

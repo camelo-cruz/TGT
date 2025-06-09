@@ -17,7 +17,7 @@ app = FastAPI()
 
 # Always include your API routers:
 app.include_router(auth_router)
-app.include_router(jobs_router, prefix="jobs/")
+app.include_router(jobs_router, prefix="/jobs")
 
 if DEV:
     # In dev, allow your React app (on :8080) to call your backend (on :8000)

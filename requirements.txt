@@ -1,7 +1,7 @@
 # MacOS dependencies
-torch==2.5.1; sys_platform == "darwin"
-torchvision==0.20.1; sys_platform == "darwin"
-torchaudio==2.5.1; sys_platform == "darwin"
+torch==2.6.0; sys_platform == "darwin"
+torchvision==0.21.0; sys_platform == "darwin"
+torchaudio==2.6.0; sys_platform == "darwin"
 
 # Windows dependencies
 --extra-index-url https://download.pytorch.org/whl/cu124
@@ -40,3 +40,4 @@ python-multipart
 cupy-cuda12x; sys_platform == "linux"
 sacremoses
 pypinyin
+pykakasi

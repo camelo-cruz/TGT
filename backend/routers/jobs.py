@@ -24,7 +24,7 @@ async def index(request: Request):
     version = os.getenv("APP_VERSION", "dev")
     return templates.TemplateResponse("index.html", {"request": request, "app_version": version})
 
-@router.post("process")
+@router.post("/process")
 async def process(
     request: Request,
     action: str = Form(...),
@@ -77,7 +77,7 @@ async def process(
     return {"job_id": job_id}
 
 
-@router.get("{job_id}/stream")
+@router.get("/{job_id}/stream")
 async def stream(job_id: str):
     job = jobs.get(job_id)
     if not job:
