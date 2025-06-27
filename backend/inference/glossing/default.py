@@ -72,6 +72,6 @@ class DefaultGlossingStrategy(GlossingStrategy):
 if __name__ == "__main__":
     glossing_strategy = DefaultGlossingStrategy(language_code="de")
     glossing_strategy.load_model()
-    sentence = "Ich sage dir, dass er ein guter Lehrer ist."
+    sentence = "der kürbis und die aubergine ist abgebissen"
     glossed_sentence = glossing_strategy.gloss(sentence)
     print(glossed_sentence)

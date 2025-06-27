@@ -39,11 +39,11 @@ def gloss_to_ud_features(gloss: str) -> list[str]:
 
     per_token_feats: list[str] = [] # Initialize list to store features for each token
     token_without_gloss: list[str] = [] # Initialize list to store tokens without gloss
-    unknown_codes: list[str] = [] # Initialize list to store unknown codes. This means that the code is not in our list of LEIPZIG_GLOSSARY
+    unknown_codes: list[str] = [] # Initialize list to store unknown codes. This means that the code is not in our list of LEIPZIG_GLOSSARY and needs to be added
     for token in gloss.split():
         # Case 1: no “.” ⇒ not glossed because . means that the token has a gloss
         if "." not in token:
-            per_token_feats.append('') # Why am I doing this? Check what is the spacy behavior when the token has no gloss
+            per_token_feats.append(None) # Why am I doing this? In spacy is nothing. Dict in morph.dict is empty
             token_without_gloss.append(token)
             continue
 
@@ -59,7 +59,7 @@ def gloss_to_ud_features(gloss: str) -> list[str]:
                 unknown_codes.append(code)
 
         # If no features mapped, use “_” as placeholder
-        per_token_feats.append("|".join(feats) if feats else "_")
+        per_token_feats.append("|".join(feats) if feats else None) # Which placeholder to use?
 
     logger.debug(f"tokens without gloss: {token_without_gloss}")
     logger.debug(f"unknown codes: {unknown_codes}")
